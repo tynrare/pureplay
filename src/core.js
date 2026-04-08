@@ -1,28 +1,23 @@
 /** @namespace ty */
-import Core from "./core.js";
 
 /**
  * @class Core
  * @memberof pp.core
  */
-class App {
+class Core {
   constructor() {
     this.active = false;
-    this.core = new Core();
   }
 
   init() {
-    this.core.init();
     return this;
   }
 
   start() {
-    this.core.start();
     this.active = true;
   }
 
   stop() {
-    this.core.stop();
     this.active = false;
   }
 
@@ -31,10 +26,8 @@ class App {
       return 1;
     }
 
-    this.core.step(dt);
-
     return 0;
   }
 }
 
-export default App;
+export default Core;

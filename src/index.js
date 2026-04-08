@@ -29,7 +29,7 @@ function main() {
   element?.classList.add("active");
 
   const app = new App();
-  app.init().run();
+  app.init().stop();
 
   element?.classList.add("ready");
 
