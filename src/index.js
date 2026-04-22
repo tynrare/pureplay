@@ -11,7 +11,7 @@ function update(app, dt) {
  * @param {App} app
  */
 function loop(app) {
-  const t1 = performance.now();
+  let t1 = performance.now();
 
   requestAnimationFrame((time) => {
     const t2 = performance.now();
@@ -20,6 +20,7 @@ function loop(app) {
       return;
     }
 
+    t1 = t2;
     loop(app);
   });
 }
@@ -29,7 +30,7 @@ function main() {
   element?.classList.add("active");
 
   const app = new App();
-  app.init().stop();
+  app.init().start();
 
   element?.classList.add("ready");
 
