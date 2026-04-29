@@ -1,6 +1,10 @@
 /** @namespace ty */
 import { PglTexture } from "../lib/picogl.js";
 
+/**
+ * @class Texture
+ * @memberof pp.render
+ */
 class Texture {
   static _fallback_texture = null;
   static _fallback_owner = null;
@@ -15,6 +19,7 @@ class Texture {
     /** @type {boolean} */
     this.active = false;
     this._render = null;
+    this._version = 0;
   }
 
   init(source) {
@@ -23,6 +28,7 @@ class Texture {
     this._ready = false;
     this.active = false;
     this._render = null;
+    this._version = 0;
     return this;
   }
 
@@ -43,9 +49,14 @@ class Texture {
 
   set_source(source, render = null) {
     this.source = source;
+    this._version += 1;
     if (this.active && render) {
       this.start(render);
     }
+  }
+
+  get version() {
+    return this._version;
   }
 
   get ready() {
@@ -86,6 +97,7 @@ class Texture {
     this._delete_texture();
     this._texture = this._render.pgl.createTexture2D(this.source, this.source.width, this.source.height);
     this._ready = true;
+    this._version += 1;
     return this._texture;
   }
 

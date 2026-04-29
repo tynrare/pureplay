@@ -9,11 +9,22 @@ db#db_pp_files(name="files")
    d(name="basic_fs"              path="glsl/basic.fs"                    preload="1")
    d(name="model_vs"              path="glsl/model.vs"                    preload="1")
    d(name="model_fs"              path="glsl/model.fs"                    preload="1")
+   d(name="model_texarray_vs"     path="glsl/model_texarray.vs"           preload="1")
+   d(name="model_texarray_fs"     path="glsl/model_texarray.fs"           preload="1")
+
+db#db_pp_texture_arrays(name="texture_arrays")
+   d(name="texarr_floor_set"      layers="[timber_square_clay,floor_tiles_blue_small_damaged,floor_wood_planks_wide]")
 
 db#db_pp_shaders(name="shaders")
    d(name="basic"                 vs="basic_vs"                           fs="basic_fs")
    d(name="model"                 vs="model_vs"                           fs="model_fs")
+   d(name="model_texarray"        vs="model_texarray_vs"                  fs="model_texarray_fs")
 
 db#db_pp_models(name="models")
    d(name="box"                   shader="model"                          type="box" texture="tex_white" w="1" h="1" d="1")
-   d(name="box_timber"            inherits="box"                          texture="timber_square_clay")
+   d(name="box_timber"            instanceof="box_instanced"              texture_layer="0")
+   d(name="box_floor_tiles"       instanceof="box_instanced"              texture_layer="1")
+   d(name="box_floor_wood"        instanceof="box_instanced"              texture_layer="2")
+
+db#db_pp_models_instanced(name="models_instanced")
+   d(name="box_instanced"         shader="model_texarray"                 type="box" texture_array="texarr_floor_set" w="1" h="1" d="1")

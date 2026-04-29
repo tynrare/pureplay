@@ -2,11 +2,15 @@
 import Render from "../render.js";
 import { PicoGL, PglApp, DrawCall, VertexBuffer, VertexArray } from "../lib/picogl.js";
 import { createBox } from "../lib/pglutils.js";
-import { mat4, vec3 } from "../lib/glmatrix.js";
+import { mat4, quat, vec3 } from "../lib/glmatrix.js";
 import { transform } from "../math.js";
 import Shader from "./shader.js";
 import Texture from "./texture.js";
 
+/**
+ * @class Model
+ * @memberof pp.render
+ */
 class Model {
   constructor() {
     /** @type {VertexArray} */
@@ -15,7 +19,7 @@ class Model {
     this.matrix = null;
     /** @type {vec3} */
     this.position = null;
-    /** @type {vec3} */
+    /** @type {quat} */
     this.rotation = null;
     /** @type {vec3} */
     this.scale = null;
@@ -30,6 +34,7 @@ class Model {
     this._texture_uniform = null;
     this._texture_bound = false;
     this._bound_texture_ref = null;
+    this._bound_texture_hash = -1;
   }
 
   /**
@@ -39,8 +44,8 @@ class Model {
     this.array = array;
     this.matrix = mat4.create();
     this.position = vec3.create();
-    this.rotation = vec3.create();
-    this.scale = vec3.create().set(1, 1, 1);
+    this.rotation = quat.create();
+    this.scale = vec3.fromValues(1, 1, 1);
 
     return this;
   }
@@ -79,12 +84,52 @@ class Model {
     this._texture = texture;
     this._texture_bound = false;
     this._bound_texture_ref = null;
+    this._bound_texture_hash = -1;
     this._ensure_texture_binding();
+  }
+
+  /**
+   * @param {vec3} v .
+   * @returns {Model} .
+   */
+  set_position(v) {
+    this.position[0] = v[0];
+    this.position[1] = v[1];
+    this.position[2] = v[2];
+    return this;
+  }
+
+  /**
+   * @param {quat} v .
+   * @returns {Model} .
+   */
+  set_rotation(v) {
+    this.rotation[0] = v[0];
+    this.rotation[1] = v[1];
+    this.rotation[2] = v[2];
+    this.rotation[3] = v[3];
+    return this;
+  }
+
+  /**
+   * @param {vec3} v .
+   * @returns {Model} .
+   */
+  set_scale(v) {
+    this.scale[0] = v[0];
+    this.scale[1] = v[1];
+    this.scale[2] = v[2];
+    return this;
   }
 
   update() {
     this._ensure_drawcall();
-    if (!this._texture_bound || (this._texture && this._bound_texture_ref !== this._texture.texture)) {
+    const texture_hash = this._texture?.version ?? 0;
+    if (
+      !this._texture_bound ||
+      (this._texture && this._bound_texture_ref !== this._texture.texture) ||
+      (this._texture && this._bound_texture_hash !== texture_hash)
+    ) {
       this._ensure_texture_binding();
     }
     if (!this.dc) {
@@ -147,12 +192,14 @@ class Model {
       return;
     }
     const texture_ref = this._texture.texture;
-    if (this._texture_bound && this._bound_texture_ref === texture_ref) {
+    const texture_hash = this._texture.version ?? 0;
+    if (this._texture_bound && this._bound_texture_ref === texture_ref && this._bound_texture_hash === texture_hash) {
       return;
     }
     this.dc.texture(this._texture_uniform, texture_ref);
     this._texture_bound = true;
     this._bound_texture_ref = texture_ref;
+    this._bound_texture_hash = texture_hash;
   }
 }
 

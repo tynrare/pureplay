@@ -97,6 +97,7 @@ class Render {
     this.canvas = document.getElementById("canvas_pp");
     this.pgl = PicoGL.createApp(this.canvas);
     this.pgl.clearColor(0, 1, 1, 1);
+    this.pgl.enable(PicoGL.DEPTH_TEST);
     this.camera.start(this.pgl);
     this.equalizer();
 

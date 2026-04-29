@@ -1,6 +1,10 @@
 /** @namespace ty */
 import { PglProgram } from "../lib/picogl.js";
 
+/**
+ * @class Shader
+ * @memberof pp.render
+ */
 class Shader {
   constructor() {
     this.vs = null;

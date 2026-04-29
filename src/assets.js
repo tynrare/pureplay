@@ -6,6 +6,7 @@ import logger from "./logger.js";
 import { DbList } from "./db.js";
 import Shader from "./render/shader.js";
 import Texture from "./render/texture.js";
+import TextureArray from "./render/texture_array.js";
 
 /**
  * @class Assets
@@ -191,6 +192,40 @@ class Assets {
     this.texturecache.set(name, texture);
     texture.start(this._render);
     return texture;
+  }
+
+  texture_array(name) {
+    const cached = this.texturecache.get(name);
+    if (cached) {
+      return cached;
+    }
+
+    const conf = this._db.get("texture_arrays")?.getconfig(name);
+    if (!conf) {
+      logger.error(`Assets::texture_array config not found: ${name}`);
+      return null;
+    }
+
+    const layers = conf["layers"];
+    if (!Array.isArray(layers) || !layers.length) {
+      logger.error(`Assets::texture_array layers missing for ${name}`);
+      return null;
+    }
+
+    const textures = [];
+    for (const layer_name of layers) {
+      const texture = this.texture(layer_name);
+      if (!texture) {
+        logger.error(`Assets::texture_array missing layer texture: ${layer_name}`);
+        return null;
+      }
+      textures.push(texture);
+    }
+
+    const texture_array = new TextureArray().init(textures);
+    texture_array.start(this._render);
+    this.texturecache.set(name, texture_array);
+    return texture_array;
   }
 }
 
