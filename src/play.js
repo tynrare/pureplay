@@ -18,8 +18,7 @@ class Play {
   }
 
   start() {
-    this.box = this._core.draw.box();
-    this.box.dc.texture("tex", this._core.draw.texture);
+    this.box = this._core.draw.model("box_timber");
   }
 
   stop() {

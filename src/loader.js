@@ -18,13 +18,30 @@ class Loader {
     return Loader._instance;
   }
 
-  texture(path) {
+  image(path) {
+    console.log(`Loader::image loading ${path}`); 
     return new Promise((resolve, reject) => {
       const image = new Image();
       image.onload = () => { resolve(image) };
-      image.onerror = reject;
+      image.onerror = (event) => {
+        const is_critical_error =
+          event?.type !== "abort" &&
+          (!image.complete || image.naturalWidth === 0 || image.naturalHeight === 0);
+        resolve(is_critical_error ? null : image);
+      };
       image.src = path;
     });
+  }
+
+  text(path) {
+    return fetch(path)
+      .then((response) => {
+        if (!response.ok) {
+          return null;
+        }
+        return response.text();
+      })
+      .catch(() => null);
   }
 }
 

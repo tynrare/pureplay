@@ -2,6 +2,7 @@
 import Core from "./core.js";
 import Play from "./play.js";
 import logger from "./logger.js";
+import Loader from "./loader.js";
 
 /**
  * @class Core
@@ -30,23 +31,15 @@ class App {
     this.play.dispose();
   }
 
-  start() {
+  async start() {
     this.core.start();
     this.active = true;
-    this.ready = false;
-  }
 
-  pstart() {
+    await this.core.assets.preload(1);
     this.play.start();
-    logger.log("PurePlay started");
-  }
-
-  stop() {
-    this.core.stop();
-    this.play.stop();
-    this.active = false;
-    this.ready = false;
-
+    await this.core.assets.preload(2);
+    this.ready = true;
+    logger.log("PurePlay App started");
   }
 
   step(dt) {
@@ -54,17 +47,10 @@ class App {
       return 1;
     }
 
-    if (!this.ready && this.core.draw.ready) {
-      this.ready = true;
-      this.pstart();
-    }
-
-    if (!this.ready) {
-      return 0;
-    }
-
     this.core.step(dt);
-    this.play.step(dt);
+    if (this.ready) {
+      this.play.step(dt);
+    }
 
     return 0;
   }

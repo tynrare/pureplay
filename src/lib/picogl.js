@@ -28,6 +28,7 @@ import { VertexArray } from "./picogl/vertex-array.js";
 import { VertexBuffer } from "./picogl/vertex-buffer.js";
 import { Program } from "./picogl/program.js";
 import { DrawCall } from "./picogl/draw-call.js";
+import { Texture } from "./picogl/texture.js";
 
 let webglInfoInitialized = false;
 
@@ -84,8 +85,8 @@ export const PicoGL = Object.assign(
           gl.getParameter(GL.MAX_FRAGMENT_UNIFORM_VECTORS),
         );
         WEBGL_INFO.SAMPLES = gl.getParameter(GL.SAMPLES);
-        WEBGL_INFO.VENDOR = "(Unknown)";
-        WEBGL_INFO.RENDERER = "(Unknown)";
+        WEBGL_INFO.VENDOR = gl.getParameter(GL.VENDOR) || "(Unknown)";
+        WEBGL_INFO.RENDERER = gl.getParameter(GL.RENDERER) || "(Unknown)";
 
         // Extensions
         WEBGL_INFO.FLOAT_RENDER_TARGETS = Boolean(
@@ -127,13 +128,7 @@ export const PicoGL = Object.assign(
           ? gl.getParameter(GL.MAX_TEXTURE_MAX_ANISOTROPY_EXT)
           : 1;
 
-        WEBGL_INFO.DEBUG_RENDERER_INFO = Boolean(
-          gl.getExtension("WEBGL_debug_renderer_info"),
-        );
-        if (WEBGL_INFO.DEBUG_RENDERER_INFO) {
-          WEBGL_INFO.VENDOR = gl.getParameter(GL.UNMASKED_VENDOR_WEBGL);
-          WEBGL_INFO.RENDERER = gl.getParameter(GL.UNMASKED_RENDERER_WEBGL);
-        }
+        WEBGL_INFO.DEBUG_RENDERER_INFO = false;
 
         // Draft extensions
         WEBGL_INFO.PARALLEL_SHADER_COMPILE = Boolean(
@@ -164,5 +159,6 @@ export {
   VertexArray,
   VertexBuffer,
   Program as PglProgram,
-  DrawCall
+  DrawCall,
+  Texture as PglTexture
 };
