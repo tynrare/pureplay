@@ -29,10 +29,17 @@ class Assets {
     this.texturecache = new Map();
   }
 
+  // 2026-04-30, Codex 5.3: validate assets function JSDoc types [5d11ef]
+  /**
+   * @returns {Assets}
+   */
   init() {
     return this;
   }
   
+  /**
+   * @returns {Assets}
+   */
   dispose() {
     for (const shader of this.shadercache.values()) {
       shader.stop();
@@ -45,10 +52,16 @@ class Assets {
     return this;
   }
 
+  /**
+   * @returns {Assets}
+   */
   start() {
     return this;
   }
 
+  /**
+   * @returns {Assets}
+   */
   stop() {
     for (const shader of this.shadercache.values()) {
       shader.stop();
@@ -59,6 +72,10 @@ class Assets {
     return this;
   }
 
+  /**
+   * @param {number} level
+   * @returns {Promise<void>}
+   */
   async preload(level) {
     logger.log(`Assets::preload l${level}.`);
     const files = this._db.get("files");
@@ -98,6 +115,7 @@ class Assets {
    * @param {string} conf.path .
    * @param {string} conf.name .
    * @param {boolean?} conf.pixelate .
+   * @returns {Promise<any>}
    */
   async load_file(conf) {
     const path = conf["path"];
@@ -112,6 +130,12 @@ class Assets {
     }
   }
 
+  /**
+   * @param {Object} conf
+   * @param {string} conf.name
+   * @param {string} conf.path
+   * @returns {Promise<HTMLImageElement|null>}
+   */
   async load_file_texture(conf) {
     const name = conf["name"];
     const path = conf["path"];
@@ -130,6 +154,12 @@ class Assets {
     return null;
   }
 
+  /**
+   * @param {Object} conf
+   * @param {string} conf.name
+   * @param {string} conf.path
+   * @returns {Promise<string|null>}
+   */
   async load_file_text(conf) {
     const name = conf["name"];
     const path = conf["path"];
@@ -143,10 +173,18 @@ class Assets {
     return null;
   }
 
+  /**
+   * @param {string} name
+   * @returns {any|null}
+   */
   file(name) {
     return this.filecache.get(name) ?? null;
   }
 
+  /**
+   * @param {string} name
+   * @returns {Shader|null}
+   */
   shader(name) {
     const cached = this.shadercache.get(name);
     if (cached) {
@@ -178,6 +216,10 @@ class Assets {
     return shader;
   }
 
+  /**
+   * @param {string} name
+   * @returns {Texture|null}
+   */
   texture(name) {
     const cached = this.texturecache.get(name);
     if (cached) {
@@ -194,6 +236,10 @@ class Assets {
     return texture;
   }
 
+  /**
+   * @param {string} name
+   * @returns {TextureArray|null}
+   */
   texture_array(name) {
     const cached = this.texturecache.get(name);
     if (cached) {
@@ -230,3 +276,4 @@ class Assets {
 }
 
 export default Assets;
+// 2026-04-30, Codex 5.3: validate assets function JSDoc types [5d11ef]

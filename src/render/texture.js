@@ -9,6 +9,10 @@ class Texture {
   static _fallback_texture = null;
   static _fallback_owner = null;
 
+  // 2026-04-30, Codex 5.3: validate texture function JSDoc types [13ceaa]
+  /**
+   * @constructor
+   */
   constructor() {
     /** @type {HTMLImageElement} */
     this.source = null;
@@ -22,6 +26,10 @@ class Texture {
     this._version = 0;
   }
 
+  /**
+   * @param {HTMLImageElement|null} source
+   * @returns {Texture}
+   */
   init(source) {
     this.source = source;
     this._texture = null;
@@ -32,6 +40,10 @@ class Texture {
     return this;
   }
 
+  /**
+   * @param {import("../render.js").default} render
+   * @returns {PglTexture|null}
+   */
   start(render) {
     this.active = true;
     this._render = render;
@@ -39,6 +51,9 @@ class Texture {
     return this._ensure_ready_texture();
   }
 
+  /**
+   * @returns {void}
+   */
   stop() {
     this.active = false;
     this._delete_texture();
@@ -47,6 +62,11 @@ class Texture {
     this._render = null;
   }
 
+  /**
+   * @param {HTMLImageElement|null} source
+   * @param {import("../render.js").default|null} [render=null]
+   * @returns {void}
+   */
   set_source(source, render = null) {
     this.source = source;
     this._version += 1;
@@ -55,19 +75,31 @@ class Texture {
     }
   }
 
+  /**
+   * @returns {number}
+   */
   get version() {
     return this._version;
   }
 
+  /**
+   * @returns {boolean}
+   */
   get ready() {
     return this._ready && this._is_source_ready();
   }
 
+  /**
+   * @returns {PglTexture|null}
+   */
   get texture() {
     this._ensure_ready_texture();
     return this._texture ?? Texture._fallback_texture;
   }
 
+  /**
+   * @returns {boolean}
+   */
   _is_source_ready() {
     if (!this.source) {
       return false;
@@ -75,17 +107,26 @@ class Texture {
     return this.source.complete && this.source.naturalWidth > 0 && this.source.naturalHeight > 0;
   }
 
+  /**
+   * @returns {void}
+   */
   _delete_texture() {
     if (this._texture && this._texture !== Texture._fallback_texture) {
       this._texture.delete();
     }
   }
 
+  /**
+   * @returns {void}
+   */
   _set_fallback() {
     this._ready = false;
     this._texture = this._render ? Texture._fallback(this._render) : Texture._fallback_texture;
   }
 
+  /**
+   * @returns {PglTexture|null}
+   */
   _ensure_ready_texture() {
     if (!this._render || !this._is_source_ready()) {
       this._set_fallback();
@@ -101,6 +142,10 @@ class Texture {
     return this._texture;
   }
 
+  /**
+   * @param {import("../render.js").default} render
+   * @returns {PglTexture}
+   */
   static _fallback(render) {
     if (Texture._fallback_texture && Texture._fallback_owner === render.pgl) {
       return Texture._fallback_texture;
@@ -114,3 +159,4 @@ class Texture {
 
 export default Texture;
 export { Texture };
+// 2026-04-30, Codex 5.3: validate texture function JSDoc types [13ceaa]

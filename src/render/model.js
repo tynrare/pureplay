@@ -12,6 +12,10 @@ import Texture from "./texture.js";
  * @memberof pp.render
  */
 class Model {
+  // 2026-04-30, Codex 5.3: validate model function JSDoc types [f2c19a]
+  /**
+   * @constructor
+   */
   constructor() {
     /** @type {VertexArray} */
     this.array = null;
@@ -50,6 +54,9 @@ class Model {
     return this;
   }
 
+  /**
+   * @returns {void}
+   */
   dispose() {
     this.matrix = null;
     this.position = null;
@@ -69,6 +76,9 @@ class Model {
     this._ensure_drawcall();
   }
 
+  /**
+   * @returns {void}
+   */
   stop() {
     this.dc = null;
     this._render = null;
@@ -79,6 +89,11 @@ class Model {
     this._bound_texture_ref = null;
   }
 
+  /**
+   * @param {string} uniform
+   * @param {Texture} texture
+   * @returns {void}
+   */
   set_texture(uniform, texture) {
     this._texture_uniform = uniform;
     this._texture = texture;
@@ -122,6 +137,9 @@ class Model {
     return this;
   }
 
+  /**
+   * @returns {void}
+   */
   update() {
     this._ensure_drawcall();
     const texture_hash = this._texture?.version ?? 0;
@@ -139,6 +157,9 @@ class Model {
     this.dc.uniform("uModel", this.matrix);
   }
 
+  /**
+   * @returns {void}
+   */
   draw() {
     if (!this.dc) {
       return;
@@ -151,6 +172,7 @@ class Model {
    * @param {VertexBuffer} positions .
    * @param {VertexBuffer} uvs .
    * @param {VertexBuffer} normals .
+   * @returns {Model}
    */
   static create(pgl, positions, uvs, normals) {
     const array = pgl.createVertexArray()
@@ -163,6 +185,10 @@ class Model {
 
   /**
    * @param {PglApp} pgl .
+   * @param {number} [w=1]
+   * @param {number} [h=1]
+   * @param {number} [d=1]
+   * @returns {Model}
    */
   static box(pgl, w = 1, h = 1, d = 1) {
     const box = createBox({dimensions: [w, h, d]})
@@ -173,6 +199,9 @@ class Model {
     return Model.create(pgl, positions, uvs, normals);
   }
 
+  /**
+   * @returns {void}
+   */
   _ensure_drawcall() {
     if (this.dc || !this._render || !this._shader || !this._shader.ready || !this._shader.program) {
       return;
@@ -182,6 +211,9 @@ class Model {
     this._ensure_texture_binding();
   }
 
+  /**
+   * @returns {void}
+   */
   _ensure_texture_binding() {
     if (
       !this.dc ||
@@ -205,3 +237,4 @@ class Model {
 
 export default Model;
 export { Model };
+// 2026-04-30, Codex 5.3: validate model function JSDoc types [f2c19a]

@@ -3,6 +3,12 @@ import { mat4, quat, vec3 } from "../lib/glmatrix.js";
 import { transform } from "../math.js";
 
 class ModelInstance {
+  // 2026-04-30, Codex 5.3: validate model instance JSDoc types [53d8ac]
+  /**
+   * @param {import("./model_instanced_holder.js").default} holder
+   * @param {number} index
+   * @param {number} [layer=0]
+   */
   constructor(holder, index, layer = 0) {
     this.holder = holder;
     this.index = index;
@@ -13,10 +19,16 @@ class ModelInstance {
     this.scale = vec3.fromValues(1, 1, 1);
   }
 
+  /**
+   * @returns {number}
+   */
   get layer() {
     return this._layer;
   }
 
+  /**
+   * @param {number} i
+   */
   set layer(i) {
     this._layer = i;
     this.holder.update_layer(this.index);
@@ -68,6 +80,9 @@ class ModelInstance {
     return this;
   }
 
+  /**
+   * @returns {ModelInstance}
+   */
   update_matrix() {
     transform(this.matrix, this.position, this.rotation, this.scale);
     this.holder.update_matrix(this.index);
@@ -77,3 +92,4 @@ class ModelInstance {
 
 export default ModelInstance;
 export { ModelInstance };
+// 2026-04-30, Codex 5.3: validate model instance JSDoc types [53d8ac]

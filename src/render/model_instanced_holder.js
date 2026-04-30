@@ -7,7 +7,15 @@ import { transform } from "../math.js";
 import Shader from "./shader.js";
 import ModelInstance from "./model_instance.js";
 
+/**
+ * @class ModelInstancedHolder
+ * @memberof pp.render
+ */
 class ModelInstancedHolder {
+  // 2026-04-30, Codex 5.3: validate instanced holder JSDoc types [7be28d]
+  /**
+   * @constructor
+   */
   constructor() {
     /** @type {VertexArray} */
     this.array = null;
@@ -32,6 +40,10 @@ class ModelInstancedHolder {
     this._synced_instance_count = 0;
   }
 
+  /**
+   * @param {VertexArray} array
+   * @returns {ModelInstancedHolder}
+   */
   init(array) {
     this.array = array;
     this.dc = null;
@@ -43,12 +55,20 @@ class ModelInstancedHolder {
     return this;
   }
 
+  /**
+   * @param {Render} render
+   * @param {Shader} shader
+   * @returns {void}
+   */
   start(render, shader) {
     this._render = render;
     this._shader = shader;
     this._ensure_drawcall();
   }
 
+  /**
+   * @returns {void}
+   */
   stop() {
     this.dc = null;
     this._render = null;
@@ -71,6 +91,9 @@ class ModelInstancedHolder {
     this._synced_instance_count = 0;
   }
 
+  /**
+   * @returns {void}
+   */
   dispose() {
     this.stop();
     if (this.array) {
@@ -79,6 +102,11 @@ class ModelInstancedHolder {
     }
   }
 
+  /**
+   * @param {string} uniform
+   * @param {import("./texture.js").default|import("./texture_array.js").default} texture
+   * @returns {void}
+   */
   set_texture(uniform, texture) {
     this._texture_uniform = uniform;
     this._texture = texture;
@@ -88,6 +116,10 @@ class ModelInstancedHolder {
     this._ensure_texture_binding();
   }
 
+  /**
+   * @param {number} [layer=0]
+   * @returns {ModelInstance}
+   */
   create_instance(layer = 0) {
     const instance = new ModelInstance(this, this.instances.length, layer);
     this.instances.push(instance);
@@ -96,6 +128,9 @@ class ModelInstancedHolder {
     return instance;
   }
 
+  /**
+   * @returns {void}
+   */
   update() {
     this._ensure_drawcall();
     if (!this.dc) {
@@ -114,6 +149,9 @@ class ModelInstancedHolder {
     }
   }
 
+  /**
+   * @returns {void}
+   */
   draw() {
     if (!this.dc || this.instances.length === 0) {
       return;
@@ -121,6 +159,9 @@ class ModelInstancedHolder {
     this.dc.draw();
   }
 
+  /**
+   * @returns {void}
+   */
   _sync_instances_full() {
     if (!this._render || this.instances.length === 0) {
       this._instance_dirty = false;
@@ -155,6 +196,10 @@ class ModelInstancedHolder {
     this._synced_instance_count = this.instances.length;
   }
 
+  /**
+   * @param {number} index
+   * @returns {void}
+   */
   update_matrix(index) {
     if (
       index < 0 ||
@@ -172,6 +217,10 @@ class ModelInstancedHolder {
     this._instance_matrices.data(instance.matrix, index * 16 * 4);
   }
 
+  /**
+   * @param {number} index
+   * @returns {void}
+   */
   update_layer(index) {
     if (
       index < 0 ||
@@ -188,6 +237,9 @@ class ModelInstancedHolder {
     this._instance_layers.data(new Float32Array([instance.layer]), index * 4);
   }
 
+  /**
+   * @returns {void}
+   */
   _ensure_drawcall() {
     if (this.dc || !this._render || !this._shader || !this._shader.ready || !this._shader.program) {
       return;
@@ -197,6 +249,9 @@ class ModelInstancedHolder {
     this._ensure_texture_binding();
   }
 
+  /**
+   * @returns {void}
+   */
   _ensure_texture_binding() {
     if (
       !this.dc ||
@@ -222,6 +277,7 @@ class ModelInstancedHolder {
    * @param {VertexBuffer} positions .
    * @param {VertexBuffer} uvs .
    * @param {VertexBuffer} normals .
+   * @returns {ModelInstancedHolder}
    */
   static create(pgl, positions, uvs, normals) {
     const array = pgl.createVertexArray()
@@ -234,6 +290,10 @@ class ModelInstancedHolder {
 
   /**
    * @param {PglApp} pgl .
+   * @param {number} [w=1]
+   * @param {number} [h=1]
+   * @param {number} [d=1]
+   * @returns {ModelInstancedHolder}
    */
   static box(pgl, w = 1, h = 1, d = 1) {
     const box = createBox({ dimensions: [w, h, d] });
@@ -246,3 +306,4 @@ class ModelInstancedHolder {
 
 export default ModelInstancedHolder;
 export { ModelInstancedHolder };
+// 2026-04-30, Codex 5.3: validate instanced holder JSDoc types [7be28d]

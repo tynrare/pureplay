@@ -10,7 +10,7 @@ import ModelInstancedHolder from "./render/model_instanced_holder.js";
  */
 class Draw {
   /**
-  * @param {Object} core .
+  * @param {import("./core.js").default} core
    */
   constructor(core) {
     this._core = core;
@@ -20,26 +20,46 @@ class Draw {
     this.texture = null;
   }
 
+  /**
+   * @returns {Draw}
+   */
   init() {
     this.active = false;
 
     return this;
   }
 
+  /**
+   * @returns {void}
+   */
   dispose() {
   }
 
+  /**
+   * @returns {void}
+   */
   start() {
     this.active = true;
   }
 
+  /**
+   * @returns {void}
+   */
   stop() {
     this.active = false;
   }
 
+  /**
+   * @param {number} dt
+   * @returns {void}
+   */
   step(dt) {
   }
 
+  /**
+   * @param {string} name
+   * @returns {Model|null}
+   */
   model(name) {
     const conf = this._core.db.get("models").getconfig(name);
     if (!conf) {
@@ -76,6 +96,10 @@ class Draw {
     return model;
   }
 
+  /**
+   * @param {string} name
+   * @returns {ModelInstancedHolder|null}
+   */
   model_instanced(name) {
     const conf = this._core.db.get("models_instanced")?.getconfig(name);
     if (!conf) {
@@ -114,6 +138,12 @@ class Draw {
     return holder;
   }
 
+  // 2026-04-30, Codex 5.3: validate draw function JSDoc types [ad4e7f]
+  /**
+   * @param {string} name
+   * @param {ModelInstancedHolder|null} [holder]
+   * @returns {import("./render/model_instance.js").default|null}
+   */
   model_instance(name, holder = null) {
     const conf = this._core.db.get("models").getconfig(name);
     if (!conf) {
@@ -139,3 +169,4 @@ class Draw {
 export default Draw;
 
 export { Draw, Model, ModelInstancedHolder }
+// 2026-04-30, Codex 5.3: validate draw function JSDoc types [ad4e7f]

@@ -22,7 +22,10 @@ void main() {
     vec4 worldPosition = modelMatrix * position;
     vPosition = worldPosition.xyz;
     vUV = uv;
-    vNormal = (modelMatrix * normal).xyz;
+    // 2026-04-30, Codex 5.3: correct normal transform for directional light [3d9b7e]
+    mat3 normalMatrix = mat3(transpose(inverse(modelMatrix)));
+    vNormal = normalize(normalMatrix * normal.xyz);
     vTextureLayer = int(textureLayer);
     gl_Position = viewProj * worldPosition;
 }
+// 2026-04-30, Codex 5.3: correct normal transform for directional light [3d9b7e]

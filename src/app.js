@@ -5,10 +5,14 @@ import logger from "./logger.js";
 import Loader from "./loader.js";
 
 /**
- * @class Core
- * @memberof pp.core
+ * @class App
+ * @memberof pp.app
  */
 class App {
+  // 2026-04-30, Codex 5.3: validate app function JSDoc types [b3f91e]
+  /**
+   * @constructor
+   */
   constructor() {
     this.active = false;
     this.ready = false;
@@ -16,6 +20,9 @@ class App {
     this.play = new Play(this.core);
   }
 
+  /**
+   * @returns {App}
+   */
   init() {
     this.active = false;
     this.ready = false;
@@ -26,22 +33,32 @@ class App {
     return this;
   }
 
+  /**
+   * @returns {void}
+   */
   dispose() {
     this.core.dispose();
     this.play.dispose();
   }
 
+  /**
+   * @returns {Promise<void>}
+   */
   async start() {
     this.core.start();
     this.active = true;
 
     await this.core.assets.preload(1);
-    this.play.start();
     await this.core.assets.preload(2);
+    this.play.start();
     this.ready = true;
     logger.log("PurePlay App started");
   }
 
+  /**
+   * @param {number} dt
+   * @returns {number}
+   */
   step(dt) {
     if (!this.active) {
       return 1;
@@ -57,3 +74,4 @@ class App {
 }
 
 export default App;
+// 2026-04-30, Codex 5.3: validate app function JSDoc types [b3f91e]
