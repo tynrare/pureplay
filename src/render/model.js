@@ -1,5 +1,6 @@
 /** @namespace ty */
-import Render from "../render.js";
+// 2026-06-14, Composer: import render from src/core [h8d0f4]
+import Render from "../core/render.js";
 import { PicoGL, PglApp, DrawCall, VertexBuffer, VertexArray } from "../lib/picogl.js";
 import { createBox } from "../lib/pglutils.js";
 import { mat4, quat, vec3 } from "../lib/glmatrix.js";
@@ -237,4 +238,5 @@ class Model {
 
 export default Model;
 export { Model };
+// 2026-06-14, Composer: import render from src/core [h8d0f4]
 // 2026-04-30, Codex 5.3: validate model function JSDoc types [f2c19a]

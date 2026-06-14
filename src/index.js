@@ -1,4 +1,5 @@
-import App from "./app.js";
+// 2026-06-14, Composer: import app from src/core [f6b8d2]
+import App from "./core/app.js";
 
 /**
  * @param {App} app
@@ -38,3 +39,4 @@ function main() {
 }
 
 window.main = main;
+// 2026-06-14, Composer: import app from src/core [f6b8d2]

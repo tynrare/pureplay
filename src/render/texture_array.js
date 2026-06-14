@@ -1,4 +1,5 @@
 /** @namespace ty */
+// 2026-06-14, Composer: point JSDoc render import at src/core [j0f2b6]
 import Texture from "./texture.js";
 
 /**
@@ -26,7 +27,7 @@ class TextureArray {
   }
 
   /**
-   * @param {import("../render.js").default} render
+   * @param {import("../core/render.js").default} render
    * @returns {import("../lib/picogl.js").PglTexture|null}
    */
   start(render) {
@@ -151,7 +152,7 @@ class TextureArray {
   }
 
   /**
-   * @param {import("../render.js").default} render
+   * @param {import("../core/render.js").default} render
    * @returns {import("../lib/picogl.js").PglTexture}
    */
   static _fallback(render) {
@@ -167,5 +168,6 @@ class TextureArray {
 
 export default TextureArray;
 export { TextureArray };
+// 2026-06-14, Composer: point JSDoc render import at src/core [j0f2b6]
 // 2026-04-30, Codex 5.3: square-ish texture array packing [a71f2d9b]
 // 2026-04-30, Codex 5.3: validate texture array JSDoc types [22d91b]

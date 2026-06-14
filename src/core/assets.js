@@ -1,12 +1,13 @@
 /** @namespace ty */
 
+// 2026-06-14, Composer: move assets into src/core [b2d4f8]
 import Render from "./render.js";
 import Loader from "./loader.js";
-import logger from "./logger.js";
+import logger from "../logger.js";
 import { DbList } from "./db.js";
-import Shader from "./render/shader.js";
-import Texture from "./render/texture.js";
-import TextureArray from "./render/texture_array.js";
+import Shader from "../render/shader.js";
+import Texture from "../render/texture.js";
+import TextureArray from "../render/texture_array.js";
 
 /**
  * @class Assets
@@ -276,4 +277,5 @@ class Assets {
 }
 
 export default Assets;
+// 2026-06-14, Composer: move assets into src/core [b2d4f8]
 // 2026-04-30, Codex 5.3: validate assets function JSDoc types [5d11ef]

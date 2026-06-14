@@ -1,8 +1,9 @@
 /** @namespace ty */
+// 2026-06-14, Composer: move draw into src/core [d4f6b0]
 import Render from "./render.js";
-import logger from "./logger.js";
-import Model from "./render/model.js";
-import ModelInstancedHolder from "./render/model_instanced_holder.js";
+import logger from "../logger.js";
+import Model from "../render/model.js";
+import ModelInstancedHolder from "../render/model_instanced_holder.js";
 
 /**
  * @class Draw
@@ -142,7 +143,7 @@ class Draw {
   /**
    * @param {string} name
    * @param {ModelInstancedHolder|null} [holder]
-   * @returns {import("./render/model_instance.js").default|null}
+   * @returns {import("../render/model_instance.js").default|null}
    */
   model_instance(name, holder = null) {
     const conf = this._core.db.get("models").getconfig(name);
@@ -169,4 +170,5 @@ class Draw {
 export default Draw;
 
 export { Draw, Model, ModelInstancedHolder }
+// 2026-06-14, Composer: move draw into src/core [d4f6b0]
 // 2026-04-30, Codex 5.3: validate draw function JSDoc types [ad4e7f]

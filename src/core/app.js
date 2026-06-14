@@ -1,7 +1,8 @@
 /** @namespace ty */
+// 2026-06-14, Composer: move app into src/core [a1c3e7]
 import Core from "./core.js";
-import Play from "./play.js";
-import logger from "./logger.js";
+import Play from "../play.js";
+import logger from "../logger.js";
 import Loader from "./loader.js";
 
 /**
@@ -74,4 +75,5 @@ class App {
 }
 
 export default App;
+// 2026-06-14, Composer: move app into src/core [a1c3e7]
 // 2026-04-30, Codex 5.3: validate app function JSDoc types [b3f91e]

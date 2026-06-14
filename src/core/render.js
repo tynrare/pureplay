@@ -1,8 +1,9 @@
 /** @namespace ty */
-import { PicoGL, PglApp, UniformBuffer } from "./lib/picogl.js";
-import logger from "./logger.js";
-import { mat4, vec3 } from "./lib/glmatrix.js";
-import { v3up } from "./math.js";
+// 2026-06-14, Composer: move render into src/core [e5a7c1]
+import { PicoGL, PglApp, UniformBuffer } from "../lib/picogl.js";
+import logger from "../logger.js";
+import { mat4, vec3 } from "../lib/glmatrix.js";
+import { v3up } from "../math.js";
 
 /**
  * @class Camera
@@ -138,3 +139,4 @@ class Render {
 }
 
 export default Render;
+// 2026-06-14, Composer: move render into src/core [e5a7c1]

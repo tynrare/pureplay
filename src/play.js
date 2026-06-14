@@ -1,7 +1,8 @@
 /** @namespace ty */
-import Core from "./core.js";
+// 2026-06-14, Composer: import core from src/core [g7c9e3]
+import Core from "./core/core.js";
 import { mat4, vec3 } from "./lib/glmatrix.js";
-import { v3up } from "./math.js";
+import { v3up, v3 } from "./math.js";
 
 /**
  * @class Play
@@ -36,9 +37,9 @@ class Play {
     this.box.set_rotation([0, 0, 0, 1]);
     this.box.set_scale([1, 1, 1]);
     this.boxes = this._core.draw.model_instanced("box_instanced");
-    this.box_timber = this._core.draw.model_instance("box_timber", this.boxes)?.set_position([0, 0, -1.25]);
-    this.box_floor_tiles = this._core.draw.model_instance("box_floor_tiles", this.boxes)?.set_position([-1.25, 0, 0]);
-    this.box_floor_wood = this._core.draw.model_instance("box_floor_wood", this.boxes)?.set_position([1.25, 0, 0]);
+    this.box_timber = this._core.draw.model_instance("box_timber", this.boxes)?.set_position(v3(0, 0, -1.25));
+    this.box_floor_tiles = this._core.draw.model_instance("box_floor_tiles", this.boxes)?.set_position(v3(-1.25, 0, 0));
+    this.box_floor_wood = this._core.draw.model_instance("box_floor_wood", this.boxes)?.set_position(v3(1.25, 0, 0));
   }
 
   /**
@@ -82,5 +83,6 @@ class Play {
 }
 
 export default Play;
+// 2026-06-14, Composer: import core from src/core [g7c9e3]
 // 2026-04-30, Codex 5.3: animate camera orbit each frame [c0a9d2]
 // 2026-04-30, Codex 5.3: validate play function JSDoc types [e71ac0]

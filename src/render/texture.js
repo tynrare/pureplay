@@ -1,4 +1,5 @@
 /** @namespace ty */
+// 2026-06-14, Composer: point JSDoc render import at src/core [i9e1a5]
 import { PglTexture } from "../lib/picogl.js";
 
 /**
@@ -41,7 +42,7 @@ class Texture {
   }
 
   /**
-   * @param {import("../render.js").default} render
+   * @param {import("../core/render.js").default} render
    * @returns {PglTexture|null}
    */
   start(render) {
@@ -64,7 +65,7 @@ class Texture {
 
   /**
    * @param {HTMLImageElement|null} source
-   * @param {import("../render.js").default|null} [render=null]
+   * @param {import("../core/render.js").default|null} [render=null]
    * @returns {void}
    */
   set_source(source, render = null) {
@@ -143,7 +144,7 @@ class Texture {
   }
 
   /**
-   * @param {import("../render.js").default} render
+   * @param {import("../core/render.js").default} render
    * @returns {PglTexture}
    */
   static _fallback(render) {
@@ -159,4 +160,5 @@ class Texture {
 
 export default Texture;
 export { Texture };
+// 2026-06-14, Composer: point JSDoc render import at src/core [i9e1a5]
 // 2026-04-30, Codex 5.3: validate texture function JSDoc types [13ceaa]

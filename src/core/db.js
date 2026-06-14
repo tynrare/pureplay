@@ -1,4 +1,5 @@
-import logger from "./logger.js";
+// 2026-06-14, Composer: move db into src/core [c3e5a9]
+import logger from "../logger.js";
 
 /**
  * @constructor
@@ -168,3 +169,4 @@ function DbList(container, dbkey) {
 export default DbList;
 
 export { DbEntry, DbList };
+// 2026-06-14, Composer: move db into src/core [c3e5a9]
